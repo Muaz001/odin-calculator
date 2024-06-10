@@ -24,27 +24,30 @@ function divide(num1, num2) {
 
 
 function operate(num1, sign, num2) {
-    let ans = null;
+    let value = null;
     if (sign === "+") {
-        ans = add(num1, num2);
+        value = add(num1, num2);
     }
     else if (sign === "-") {
-        ans = subtract(num1, num2);
+        value = subtract(num1, num2);
     }
     else if (sign === "*") {
-        ans = multiply(num1, num2);
+        value = multiply(num1, num2);
     }
     else if (sign === "/") {
-        ans = divide(num1, num2);
-        if (ans === Infinity) ans = "Error";
+        value = divide(num1, num2);
+        if (value === Infinity) value = "Error";
     }
-
-    showDisplay(ans);
+    
+    // Rounding the numbers
+    
+    let ans = value.toFixed(5);
+    showDisplay(Number(ans));
 };
 
 
 function clearDisplay() {
-    let parent = document.querySelector(".display");
+    let parent = document.querySelector(".container");
     while(parent.firstChild) {
         parent.removeChild(parent.firstChild);
     }
@@ -52,14 +55,14 @@ function clearDisplay() {
 
 
 function showDisplay(btnClicked) {
-    let toDisplay = "0 1 2 3 4 5 6 7 8 9 + - / *";
+    let toDisplay = "0 1 2 3 4 5 6 7 8 9 + - / * .";
 
     // When Enter clicked
     if (typeof btnClicked === "number") {
         clearDisplay();
         let newValue = document.createElement("span");
         newValue.textContent = btnClicked;
-        document.querySelector(".display").appendChild(newValue);
+        document.querySelector(".container").appendChild(newValue);
 
         num1 = btnClicked; 
         num2 = null; 
@@ -67,7 +70,7 @@ function showDisplay(btnClicked) {
     }
     
     // When Clear clicked
-    else if (btnClicked === "Clear") {
+    else if (btnClicked === "AC") {
         clearDisplay(); 
         num1 = null; 
         num2 = null; 
@@ -79,7 +82,7 @@ function showDisplay(btnClicked) {
         clearDisplay();
         let newValue = document.createElement("span");
         newValue.textContent = btnClicked;
-        document.querySelector(".display").appendChild(newValue);
+        document.querySelector(".container").appendChild(newValue);
 
         num1 = null; 
         num2 = null; 
@@ -90,7 +93,7 @@ function showDisplay(btnClicked) {
     else if (toDisplay.includes(btnClicked)){
         let newValue = document.createElement("span");
         newValue.textContent = btnClicked;
-        document.querySelector(".display").appendChild(newValue);
+        document.querySelector(".container").appendChild(newValue);
     }
 };
 
@@ -98,12 +101,12 @@ function showDisplay(btnClicked) {
 let skeleton = document.querySelector(".skeleton");
 skeleton.addEventListener("click", (btn) => {
     let btnClicked = btn.target.textContent;
-    let symbols = "+ - * /";
+    let symbols = "+ - * /  ";
 
-    if (btnClicked === "Enter" && num1 != null && num2 != null && sign != null) {
+    if (btnClicked === "Enter ⏎" && num1 != null && num2 != null && sign != null) {
         operate(Number(num1), sign, Number(num2));
     }
-    else if (btnClicked === "Clear") showDisplay(btnClicked);
+    else if (btnClicked === "AC") showDisplay(btnClicked);
     else if (symbols.includes(btnClicked)) sign = btnClicked; 
     else if (typeof Number(btnClicked) === "number") {
         if (num1 === null) num1 = btnClicked;
