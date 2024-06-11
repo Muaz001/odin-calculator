@@ -40,9 +40,7 @@ function operate(num1, sign, num2) {
     }
     
     // Rounding the numbers
-    
-    let ans = value.toFixed(5);
-    showDisplay(Number(ans));
+    showDisplay(Number(value.toFixed(5)));
 };
 
 
@@ -68,7 +66,7 @@ function showDisplay(btnClicked) {
         num2 = null; 
         sign = null;
     }
-    
+
     // When Clear clicked
     else if (btnClicked === "AC") {
         clearDisplay(); 
@@ -107,13 +105,19 @@ skeleton.addEventListener("click", (btn) => {
         operate(Number(num1), sign, Number(num2));
     }
     else if (btnClicked === "AC") showDisplay(btnClicked);
-    else if (symbols.includes(btnClicked)) sign = btnClicked; 
+    else if (symbols.includes(btnClicked)) sign = btnClicked;   
     else if (typeof Number(btnClicked) === "number") {
-        if (num1 === null) num1 = btnClicked;
+        // For num1:
+        if (num1 === null && btnClicked === ".") num1 = btnClicked;
+        else if (sign === null && btnClicked === ".") num1 += btnClicked;
+        else if (num1 === null) num1 = btnClicked;
         else if (sign === null) num1 += btnClicked;
+        // For num2:
+        else if (num2 === null && btnClicked === ".") num2 = btnClicked;
+        else if (num2 != null && btnClicked === ".") num2 += btnClicked;
         else if (num2 === null) num2 = btnClicked;
         else if (num2 != null) num2 += btnClicked;
-    }
-    
-    showDisplay(btnClicked);
+    }    
+
+    showDisplay(btnClicked); 
 });
